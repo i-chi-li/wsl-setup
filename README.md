@@ -101,5 +101,6 @@ wsl --distribution Ubuntu-20.04-build
 
 ```shell
 cd
-
+wget https://github.com/i-chi-li/wsl-setup/raw/master/devel/setup.sh
+sudo bash setup.sh
 ```

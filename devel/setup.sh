@@ -25,7 +25,9 @@ update-alternatives --install /usr/bin/cc cc /usr/bin/clang 120
 update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 120
 
 # ccache の設定
-ccache --config-path /etc/ccache.conf --max-size 5G
+cat << EOF > /etc/ccache.conf
+CCACHE_SIZE=10G
+EOF
 for p in gcc g++ cc c++ clang clang++; do ln -vs /usr/bin/ccache /usr/local/bin/$p; done
 hash -r
 
