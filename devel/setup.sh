@@ -30,8 +30,8 @@ for p in gcc g++ cc c++ clang clang++; do ln -vs /usr/bin/ccache /usr/local/bin/
 hash -r
 
 # Go 言語をインストール
-wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
 rm -rf /usr/local/go
-tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
 
 echo export PATH=\$PATH:/usr/local/go/bin > /etc/profile.d/golang.sh
