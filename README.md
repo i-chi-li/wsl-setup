@@ -103,4 +103,5 @@ wsl --distribution Ubuntu-20.04-build
 cd
 wget https://github.com/i-chi-li/wsl-setup/raw/master/devel/setup.sh
 sudo bash setup.sh
+ccache --max-size=10G
 ```
