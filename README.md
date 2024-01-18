@@ -1,107 +1,98 @@
 # WSL 環境構築用
-個人的な WSL 環境を構築するためのスクリプト集。
+WSL 環境を構築するための設定集。
+Ubuntu 22.04 を利用する前提とする。
 
-# WSL 環境の準備
-WSL 環境の準備は、手動で実施する。
+# 初期設定
 
-## WSL のデフォルトバージョンを 2 にする
+WSL のデフォルトバージョンを 2 にする。
 これは、一度のみ実行すればよい。
 
 ```
 wsl --set-default-version 2
 ```
 
-## ひな形とする Ubuntu-20.04 環境を準備する
-ひな形は、一度作成すれば、使い回し可能。
+利用可能なディストリビューションを確認する。
 
-Ubuntu-20.04 ディストリビューションを複数環境作成する場合、
-一度、既存の環境をエクスポートして、取り込む必要がある。
+```
+wsl --list --online
+```
+
+# 環境のひな形を作成する
+WSL では、同一ディストリビューションで複数の仮想環境を作成するには、エクスポート・インポートを行う必要がある。
 （なぜこんな仕様なのか・・・）
-初期状態から、ひな形を作成したいので、
-デフォルトでインストールされる Ubuntu-20.04 環境を
-一度削除するので注意。
-
-### Ubuntu-20.04 環境を削除する
+初期状態から、ひな形を作成するので、既存の環境を一度削除することになるため注意。
+ひな形は、一度作成すれば、使い回し可能だが、定期的に作成し直した方が良い。
 
 ```
-wsl --unregister Ubuntu-20.04
-```
+# 必要に応じて既存の環境を削除する
+wsl --unregister Ubuntu-22.04
 
-### Ubuntu-20.04 環境をインストールする
+# 環境をインストールする
+wsl --install --distribution Ubuntu-22.04
 
-```
-wsl --install --distribution Ubuntu-20.04
-```
+# 一般ユーザを追加
+Enter new UNIX username: ubuntu
+New password:
+Retype new password:
 
-### Ubuntu-20.04 環境の初期設定を行う
+# ビープ音を抑制
+echo "set bell-style none" >> ~/.inputrc
+echo "set visualbell t_vb=" >> ~/.vimrc
 
-環境が起動すると、別ウィンドウが開き、
-ログインユーザIDとパスワードを聞かれるので、任意に設定する。
-
-```shell
+# リポジトリを日本に変更
 sudo sed -i.bak -r 's@http://(jp.)?archive.ubuntu.com/ubuntu/@http://jp.archive.ubuntu.com/ubuntu/@g' /etc/apt/sources.list
-sudo apt-get update
+
+# パッケージをアップデート
+sudo apt-get -y update
 sudo apt-get -y upgrade
+
+# cloud-init をインストール
+sudo apt-get -y install cloud-init
 exit
-```
 
-### Ubuntu-20.04 環境をひな形としてエクスポート
-
-ひな形の格納と、新規環境を保存するための、
-任意のディレクトリを作成し、ひな形をエクスポートする。
-ここでは、```C:\WSL_data``` とする。
-
-```
+# ベース環境をエクスポート（出力先は任意のディレクトリで問題なし）
 mkdir C:\WSL_data
 cd /D C:\WSL_data
-wsl --export Ubuntu-20.04 Ubuntu-20.04.tar
+wsl --export Ubuntu-22.04 Ubuntu-22.04.tar
 ```
 
-## 新環境を構築する
-
-### ひな形をインポートして新環境を作成する
+# 環境を構築する
 
 ```
-wsl --import Ubuntu-20.04-build Ubuntu-20.04-build Ubuntu-20.04.tar
-wsl --set-default Ubuntu-20.04-build
-```
+# ひな形を保存したディレクトリに移動する
+cd /D C:\WSL_data
 
-### 新環境を起動する
+# 必要に応じて既存の環境を削除
+wsl --unregister Ubuntu-22.04-devel
 
-新環境を起動してログインする。
+# エクスポートした Ubuntu 環境から新環境を作成する
+wsl --import Ubuntu-22.04-devel Ubuntu-22.04-devel Ubuntu-22.04.tar
 
-```
-wsl --distribution Ubuntu-20.04-build
-```
+# 作成した仮想環境をデフォルトにする場合は実行する
+wsl --set-default Ubuntu-22.04-devel
 
-### 初期設定をする
+# cloud-init で環境を構築する
+wsl -d Ubuntu-22.04-devel
 
-デフォルトユーザを ```ubuntu```、PATH に Windows 側の PATH を追加しないように設定。
-
-```shell
-cat << EOF > /etc/wsl.conf
-[user]
-default=ubuntu
-[interop]
-appendWindowsPath=false
-EOF
+# このプロジェクトの devel ディレクトリに移動する
+cd /mnt/d/IntelliJ-projects/wsl-setup/devel/
+./cloud-init.sh
 exit
+
+# WSL をシャットダウンさせないと、ubuntu ユーザでのログインに切り替わらない
+wsl --shutdown
 ```
 
-### 新環境を再起動する
+## cloud-init を再実行する場合
 
-新環境を再起動し、ログインする。
 
 ```
-wsl --terminate Ubuntu-20.04-build
-wsl --distribution Ubuntu-20.04-build
-```
+# このプロジェクトの devel ディレクトリに移動する
+cd /mnt/d/IntelliJ-projects/wsl-setup/devel/
+sudo cloud-init clean --logs
 
-### 新環境を設定する
+# go 言語のアップデートをする場合
+sudo rm -rf /usr/local/go
 
-```shell
-cd
-wget https://github.com/i-chi-li/wsl-setup/raw/master/devel/setup.sh
-sudo bash setup.sh
-ccache --max-size=10G
+sudo ./cloud-init.sh
 ```
