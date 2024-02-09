@@ -109,17 +109,21 @@ write_files:
       [boot]
       systemd=true
       [network]
-      generateResolvConf = false
+      # ホスト名
+      hostname = Ubuntu-devel
+      # /etc/resolv.conf ファイルの内容を設定する場合コメントインする
+      #generateResolvConf = false
       [user]
       default=ubuntu
       #[interop]
       #appendWindowsPath = false
-  - path: /etc/resolv.conf
-    owner: root:root
-    permissions: '0644'
-    content: |
-      options timeout:1
-      options attempts:1
-      options rotate
-      nameserver 8.8.4.4
-      nameserver 8.8.8.8
+  # 以下をコメントインする場合は、上記の 'generateResolvConf = false' もコメントインする
+  #- path: /etc/resolv.conf
+  #  owner: root:root
+  #  permissions: '0644'
+  #  content: |
+  #    options timeout:1
+  #    options attempts:1
+  #    options rotate
+  #    nameserver 8.8.4.4
+  #    nameserver 8.8.8.8

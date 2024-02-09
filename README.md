@@ -56,6 +56,20 @@ cd /D C:\WSL_data
 wsl --export Ubuntu-22.04 Ubuntu-22.04.tar
 ```
 
+# WSL ディストリビューションのホスト名を変更する（任意）
+WSL ディストリビューションのホスト名を変更したい場合、
+[devel/user-data](devel/user-data) ファイルの `hostname = Ubuntu-devel` の行を変更する。
+
+# /etc/resolv.conf ファイルを設定する（任意）
+/etc/resolv.conf ファイルを自動生成ではなく任意に設定する場合、
+[devel/user-data](devel/user-data) ファイルの
+`#generateResolvConf = false` の行をコメントインし、
+`#- path: /etc/resolv.conf` 以降の行をコメントインし、任意に変更する。
+
+DNS を任意に指定したくなる要因として、WSL でネットワーク通信ができない場合などでは、
+ESET などのウィルス対策ソフトが通信を遮断している場合がある、
+その場合、ウィルス対策ソフトの設定で、該当の通信ブロックを解除することで、正常に通信ができることがある。
+
 # 環境を構築する
 
 ```
