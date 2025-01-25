@@ -25,15 +25,15 @@ packages:
   - neovim
   - ripgrep
   - build-essential
-  - pkg-config
+  - pkgconf
   - ccache
   - libtool
   - unzip
   - cmake
-  - llvm-15
-  - clang-15
-  - lld-15
-  - lldb-15
+  - llvm-18
+  - clang-18
+  - lld-18
+  - lldb-18
   - ninja-build
   - gdb
   - python3-dev
@@ -49,47 +49,46 @@ packages:
   - libusb-1.0-0-dev
   - gcc-arm-none-eabi
   - libnewlib-arm-none-eabi
-  - libstdc++-arm-none-eabi-newlib
 
 runcmd:
   - echo "runcmd ---------------"
   - set -uex
   - |
     update-alternatives \
-      --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-15 150 \
-      --slave /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-15 \
-      --slave /usr/bin/llvm-as llvm-as /usr/bin/llvm-as-15 \
-      --slave /usr/bin/llvm-bcanalyzer llvm-bcanalyzer /usr/bin/llvm-bcanalyzer-15 \
-      --slave /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-15 \
-      --slave /usr/bin/llvm-diff llvm-diff /usr/bin/llvm-diff-15 \
-      --slave /usr/bin/llvm-dis llvm-dis /usr/bin/llvm-dis-15 \
-      --slave /usr/bin/llvm-dwarfdump llvm-dwarfdump /usr/bin/llvm-dwarfdump-15 \
-      --slave /usr/bin/llvm-extract llvm-extract /usr/bin/llvm-extract-15 \
-      --slave /usr/bin/llvm-link llvm-link /usr/bin/llvm-link-15 \
-      --slave /usr/bin/llvm-mc llvm-mc /usr/bin/llvm-mc-15 \
-      --slave /usr/bin/llvm-nm llvm-nm /usr/bin/llvm-nm-15 \
-      --slave /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/llvm-objcopy-15 \
-      --slave /usr/bin/llvm-objdump llvm-objdump /usr/bin/llvm-objdump-15 \
-      --slave /usr/bin/llvm-ranlib llvm-ranlib /usr/bin/llvm-ranlib-15 \
-      --slave /usr/bin/llvm-readobj llvm-readobj /usr/bin/llvm-readobj-15 \
-      --slave /usr/bin/llvm-rtdyld llvm-rtdyld /usr/bin/llvm-rtdyld-15 \
-      --slave /usr/bin/llvm-size llvm-size /usr/bin/llvm-size-15 \
-      --slave /usr/bin/llvm-stress llvm-stress /usr/bin/llvm-stress-15 \
-      --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-15 \
-      --slave /usr/bin/llvm-tblgen llvm-tblgen /usr/bin/llvm-tblgen-15
+      --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-18 180 \
+      --slave /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-18 \
+      --slave /usr/bin/llvm-as llvm-as /usr/bin/llvm-as-18 \
+      --slave /usr/bin/llvm-bcanalyzer llvm-bcanalyzer /usr/bin/llvm-bcanalyzer-18 \
+      --slave /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-18 \
+      --slave /usr/bin/llvm-diff llvm-diff /usr/bin/llvm-diff-18 \
+      --slave /usr/bin/llvm-dis llvm-dis /usr/bin/llvm-dis-18 \
+      --slave /usr/bin/llvm-dwarfdump llvm-dwarfdump /usr/bin/llvm-dwarfdump-18 \
+      --slave /usr/bin/llvm-extract llvm-extract /usr/bin/llvm-extract-18 \
+      --slave /usr/bin/llvm-link llvm-link /usr/bin/llvm-link-18 \
+      --slave /usr/bin/llvm-mc llvm-mc /usr/bin/llvm-mc-18 \
+      --slave /usr/bin/llvm-nm llvm-nm /usr/bin/llvm-nm-18 \
+      --slave /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/llvm-objcopy-18 \
+      --slave /usr/bin/llvm-objdump llvm-objdump /usr/bin/llvm-objdump-18 \
+      --slave /usr/bin/llvm-ranlib llvm-ranlib /usr/bin/llvm-ranlib-18 \
+      --slave /usr/bin/llvm-readobj llvm-readobj /usr/bin/llvm-readobj-18 \
+      --slave /usr/bin/llvm-rtdyld llvm-rtdyld /usr/bin/llvm-rtdyld-18 \
+      --slave /usr/bin/llvm-size llvm-size /usr/bin/llvm-size-18 \
+      --slave /usr/bin/llvm-stress llvm-stress /usr/bin/llvm-stress-18 \
+      --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-18 \
+      --slave /usr/bin/llvm-tblgen llvm-tblgen /usr/bin/llvm-tblgen-18
   - |
     update-alternatives \
-      --install /usr/bin/clang clang /usr/bin/clang-15 150 \
-      --slave /usr/bin/clang++ clang++ /usr/bin/clang++-15 \
-      --slave /usr/bin/asan_symbolize asan_symbolize /usr/bin/asan_symbolize-15 \
-      --slave /usr/bin/clang-cpp clang-cpp /usr/bin/clang-cpp-15 \
-      --slave /usr/bin/lldb lldb /usr/bin/lldb-15
-  - update-alternatives --install /usr/bin/cc cc /usr/bin/clang 150
-  - update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 150
+      --install /usr/bin/clang clang /usr/bin/clang-18 180 \
+      --slave /usr/bin/clang++ clang++ /usr/bin/clang++-18 \
+      --slave /usr/bin/asan_symbolize asan_symbolize /usr/bin/asan_symbolize-18 \
+      --slave /usr/bin/clang-cpp clang-cpp /usr/bin/clang-cpp-18 \
+      --slave /usr/bin/lldb lldb /usr/bin/lldb-18
+  - update-alternatives --install /usr/bin/cc cc /usr/bin/clang 180
+  - update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 180
   - for p in gcc g++ cc c++ clang clang++; do sudo ln -vfs /usr/bin/ccache /usr/local/bin/$p; done
   - |
     if [ ! -e /usr/local/go ]; then
-      curl -sSL https://go.dev/dl/go1.21.6.linux-amd64.tar.gz | tar zxf - -C /usr/local
+      curl -sSL https://go.dev/dl/go1.23.5.linux-amd64.tar.gz | tar zxf - -C /usr/local
     fi
   # Bash にキャッシュされたコマンドパスをクリアする
   - hash -r
@@ -110,7 +109,7 @@ write_files:
       systemd=true
       [network]
       # ホスト名
-      hostname = Ubuntu-devel
+      hostname = Ubuntu-24.04-devel
       # /etc/resolv.conf ファイルの内容を設定する場合コメントインする
       #generateResolvConf = false
       [user]

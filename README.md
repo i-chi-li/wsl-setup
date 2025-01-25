@@ -1,6 +1,11 @@
 # WSL 環境構築用
 WSL 環境を構築するための設定集。
-Ubuntu 22.04 を利用する前提とする。
+Ubuntu 24.04 を利用する前提とする。
+このプロジェクトは、以下のディレクトリにクローンしている前提とする。
+
+`D:\IntelliJ-projects\wsl-setup\`
+
+上記と異なるディレクトリの場合は、以降の手順で `/mnt/d/IntelliJ-projects/` などの部分を変更する。
 
 # 初期設定
 
@@ -25,15 +30,15 @@ WSL では、同一ディストリビューションで複数の仮想環境を�
 
 ```
 # 必要に応じて既存の環境を削除する
-wsl --unregister Ubuntu-22.04
+wsl --unregister Ubuntu-24.04
 
 # 環境をインストールする
-wsl --install --distribution Ubuntu-22.04
+wsl --install --distribution Ubuntu-24.04
 
 # 一般ユーザを追加
 Enter new UNIX username: ubuntu
-New password:
-Retype new password:
+New password: ********
+Retype new password: ********
 
 # ビープ音を抑制
 echo "set bell-style none" >> ~/.inputrc
@@ -53,7 +58,7 @@ exit
 # ベース環境をエクスポート（出力先は任意のディレクトリで問題なし）
 mkdir C:\WSL_data
 cd /D C:\WSL_data
-wsl --export Ubuntu-22.04 Ubuntu-22.04.tar
+wsl --export Ubuntu-24.04 Ubuntu-24.04.tar
 ```
 
 # WSL ディストリビューションのホスト名を変更する（任意）
@@ -77,28 +82,31 @@ ESET などのウィルス対策ソフトが通信を遮断している場合が
 cd /D C:\WSL_data
 
 # 必要に応じて既存の環境を削除
-wsl --unregister Ubuntu-22.04-devel
+wsl --unregister Ubuntu-24.04-devel
 
 # エクスポートした Ubuntu 環境から新環境を作成する
-wsl --import Ubuntu-22.04-devel Ubuntu-22.04-devel Ubuntu-22.04.tar
+wsl --import Ubuntu-24.04-devel Ubuntu-24.04-devel Ubuntu-24.04.tar
 
 # 作成した仮想環境をデフォルトにする場合は実行する
-wsl --set-default Ubuntu-22.04-devel
+wsl --set-default Ubuntu-24.04-devel
 
-# cloud-init で環境を構築する
-wsl -d Ubuntu-22.04-devel
+# Ubuntu-24.04-devel にログインする（root ユーザ）
+wsl --distribution Ubuntu-24.04-devel
 
 # このプロジェクトの devel ディレクトリに移動する
 cd /mnt/d/IntelliJ-projects/wsl-setup/devel/
+# cloud-init で環境を構築する
 ./cloud-init.sh
 exit
 
-# WSL をシャットダウンさせないと、ubuntu ユーザでのログインに切り替わらない
-wsl --shutdown
+# ディストリビューションを終了させないと、ubuntu ユーザでのログインに切り替わらない
+wsl --terminate Ubuntu-24.04-devel
+
+# Ubuntu-24.04-devel にログインすると ubuntu ユーザとなっている。
+wsl --distribution Ubuntu-24.04-devel
 ```
 
 ## cloud-init を再実行する場合
-
 
 ```
 # このプロジェクトの devel ディレクトリに移動する
