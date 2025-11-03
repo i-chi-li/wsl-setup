@@ -1,11 +1,26 @@
 #cloud-config
 
+users:
+- name: ubuntu
+    groups: users,sudo,netdev,audio,adm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+
+write_files:
+  - path: /etc/wsl.conf
+    append: true
+    content: |
+      [user]
+      default = ubuntu
+
 warnings:
+  # クラウド環境固有のデータソース取得を停止
   dsid_missing_source: off
 
-locale: C.UTF-8
+#locale: C.UTF-8
+locale: ja_JP.UTF-8
 timezone: Asia/Tokyo
-
 # SSH キーを再作成しないように設定
 ssh_deletekeys: false
 
@@ -13,7 +28,8 @@ ssh_deletekeys: false
 apt:
   primary:
     - arches: [default]
-      uri: http://jp.archive.ubuntu.com/ubuntu
+      #uri: http://jp.archive.ubuntu.com/ubuntu
+      uri: http://ftp.udx.icscoe.jp/Linux/ubuntu/
   security:
     - arches: [default]
       uri: http://security.ubuntu.com/ubuntu

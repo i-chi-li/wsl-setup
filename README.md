@@ -77,6 +77,8 @@ ESET などのウィルス対策ソフトが通信を遮断している場合が
 
 # 環境を構築する
 
+## 新規ディストリビューションを作成する
+
 ```
 # ひな形を保存したディレクトリに移動する
 cd /D C:\WSL_data
@@ -89,14 +91,26 @@ wsl --import Ubuntu-24.04-devel Ubuntu-24.04-devel Ubuntu-24.04.tar
 
 # 作成した仮想環境をデフォルトにする場合は実行する
 wsl --set-default Ubuntu-24.04-devel
+```
 
+## 初期構築設定をする
+
+初期構築は、cloud-init を利用して行う。
+
+Windows 側のホームディレクトリ(%USERPROFILE%)に cloud-init 設定ファイルを配置する。
+[user-data](devel/user-data)ファイルを
+`%USERPROFILE%\.cloud-init` ディレクトリに
+`＜ディストリビューション名＞.user-data` というファイル名で配置する。
+前述の設定の場合、`Ubuntu-24.04-devel.user-data` となる。
+
+> 参考：[WSLでもcloud-initを活用する](https://gihyo.jp/admin/serial/01/ubuntu-recipe/0869)
+
+```
 # Ubuntu-24.04-devel にログインする（root ユーザ）
 wsl --distribution Ubuntu-24.04-devel
 
 # このプロジェクトの devel ディレクトリに移動する
 cd /mnt/d/IntelliJ-projects/wsl-setup/devel/
-# cloud-init で環境を構築する
-./cloud-init.sh
 exit
 
 # ディストリビューションを終了させないと、ubuntu ユーザでのログインに切り替わらない
@@ -104,6 +118,17 @@ wsl --terminate Ubuntu-24.04-devel
 
 # Ubuntu-24.04-devel にログインすると ubuntu ユーザとなっている。
 wsl --distribution Ubuntu-24.04-devel
+```
+
+# 手動で cloud-init を実行する場合
+
+`%USERPROFILE%\.cloud-init` に設定ファイルを配置しない場合でも実行できる。
+
+```shell
+# このプロジェクトの devel ディレクトリに移動する
+cd /mnt/d/IntelliJ-projects/wsl-setup/devel/
+# cloud-init で環境を構築する
+./cloud-init.sh
 ```
 
 ## cloud-init を再実行する場合
