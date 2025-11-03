@@ -1,7 +1,7 @@
 #cloud-config
 
 users:
-- name: ubuntu
+  - name: ubuntu
     groups: users,sudo,netdev,audio,adm
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
@@ -13,10 +13,6 @@ write_files:
     content: |
       [user]
       default = ubuntu
-
-warnings:
-  # クラウド環境固有のデータソース取得を停止
-  dsid_missing_source: off
 
 #locale: C.UTF-8
 locale: ja_JP.UTF-8
